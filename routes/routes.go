@@ -24,13 +24,16 @@ func New() *echo.Echo {
 	auth := e.Group("auth")
 	auth.POST("/login", ah.AuthLogin)
 
+	// key authentication
+	secret := []byte(config.JWT_SECRET)
+
 	jwtAuthGroup := e.Group("jwt")
-	jwtAuthGroup.Use(middlewares.JWT([]byte(config.JWT_SECRET)))
+	jwtAuthGroup.Use(middlewares.JWT(secret))
 
 	jwtAuthGroup.GET("/articles", c_articles.GetAllArticle)
 
 	basicAuthGroup := e.Group("basic")
-	basicAuthGroup.Use(middlewares.BasicAuth("admin", "admin"))
+	basicAuthGroup.Use(middlewares.BasicAuth("admin", "admin", secret))
 
 	basicAuthGroup.GET("/articles", c_articles.GetAllArticle)
 
