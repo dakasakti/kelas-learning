@@ -6,18 +6,19 @@ import (
 	m_articles "km-kelas-e/model/articles"
 )
 
+// actually not needing to this because data model with response is same
 type Article struct {
-	ID        int       `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Status    bool      `json:"status"`
+	ID        uint      `json:"id"`
 	Title     string    `json:"title"`
 	Content   string    `json:"content"`
+	Status    bool      `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func FromModel(model m_articles.Article) Article {
 	return Article{
-		ID:        int(model.ID),
+		ID:        model.ID,
 		CreatedAt: model.CreatedAt,
 		UpdatedAt: model.UpdatedAt,
 		Status:    model.Status,

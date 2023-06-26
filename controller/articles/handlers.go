@@ -6,7 +6,8 @@ import (
 	"github.com/labstack/echo/v4"
 
 	respArticle "km-kelas-e/controller/articles/response"
-	"km-kelas-e/middleware"
+	"km-kelas-e/helpers"
+	"km-kelas-e/middlewares"
 
 	m_articles "km-kelas-e/model/articles"
 )
@@ -28,10 +29,16 @@ func GetAllArticle(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"claims":  middleware.ExtractClaim(c),
-		"message": "hope all feeling well",
-		"data":    respArticle.FromModelSlice(result),
+	if len(result) == 0 {
+		return c.JSON(http.StatusNotFound, helpers.Response{
+			Message: "data not found",
+		})
+	}
+
+	return c.JSON(http.StatusOK, helpers.Response{
+		Message: "hope all feeling well",
+		Claims:  middlewares.ExtractClaim(c),
+		Data:    respArticle.FromModelSlice(result),
 	})
 }
 

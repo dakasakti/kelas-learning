@@ -1,3 +1,3 @@
 package config
 
-const JwtSecret string = "km-kelas-e"
+const JWT_SECRET string = "km-kelas-e"
